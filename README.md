@@ -30,13 +30,13 @@ Run tests: `bats tests`
 - [x] Adjust wifi icon according to strength
 - [x] Ethernet support
 - [x] VPN list
+- [x] Travis CI build
 - [ ] Connect WiFi AP using Applescript
 - [ ] Sort APs (improve!)
 - [ ] Filter APs on-the-fly, but only scan once
 - [ ] Use optional parameters for unit tests
 - [ ] Bluetooth list
 - [ ] DNS switcher using `networksetup -setdnsservers`
-- [ ] Travis CI build
 
 ## Credits
 
