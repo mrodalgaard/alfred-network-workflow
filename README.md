@@ -18,7 +18,7 @@ Requires Alfred 2 and Power Pack for installing this extension. Might behave dif
 
 ## Tests
 
-[bats](https://github.com/sstephenson/bats) is used for automatic testing of bash functionality.
+[bats](https://github.com/sstephenson/bats) is used for automatic testing of bash functionality. Install with `brew install bats` using [brew](http://brew.sh/).
 
 Run tests: `bats tests`
 

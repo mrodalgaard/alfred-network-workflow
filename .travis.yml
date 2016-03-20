@@ -1,5 +1,5 @@
-language: c
+language: objective-c
 
 script:
-  - git clone https://github.com/sstephenson/bats.git
-  - bats/bin/bats --tap tests
+  - brew install bats
+  - bats --tap tests
