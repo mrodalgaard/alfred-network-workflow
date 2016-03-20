@@ -1,0 +1,5 @@
+language: c
+
+script:
+  - git clone https://github.com/sstephenson/bats.git
+  - bats/bin/bats --tap tests
