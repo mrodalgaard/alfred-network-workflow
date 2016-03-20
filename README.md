@@ -11,10 +11,10 @@ Requires Alfred 2 and Power Pack for installing this extension. Might behave dif
 
 ## Usage
 
-Type `wifi` to show Wi-Fi info and enable/disable.
-Type `eth` to show ethernet info (if connected).
-Type `wifilist` to scan for Wi-Fi hotspots.
-Type `vpn` to list configured VPNs and connect.
+* Type `wifi` to show Wi-Fi info and enable/disable.
+* Type `eth` to show ethernet info (if connected).
+* Type `wifilist` to scan for Wi-Fi hotspots.
+* Type `vpn` to list configured VPNs and connect.
 
 ## Tests
 
