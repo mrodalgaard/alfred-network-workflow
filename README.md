@@ -1,4 +1,4 @@
-# <img src="icon.png" alt="network" width="32"> Alfred Network Workflow
+# <img src="icon.png" alt="network" width="32"> Alfred Network Workflow [![Build Status](https://travis-ci.org/mrodalgaard/alfred-network-workflow.svg?branch=master)](https://travis-ci.org/mrodalgaard/alfred-network-workflow)
 
 Alfred workflow that can show and change your network settings.
 
