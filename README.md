@@ -1,12 +1,13 @@
-# <img src="icon.png" width="32"> Alfred Network Workflow
+# <img src="icon.png" alt="network" width="32"> Alfred Network Workflow
 
 Alfred workflow that can show and change your network settings.
 
 Requires Alfred 2 and Power Pack for installing this extension. Might behave differently on Mac OSX versions older than 10.7 Lion. This workflow is primarily implemented in bash with a little help from AppleScript.
 
-![alfred-wifi-workflow-wifi](screenshots/wifi-preview.png)
-
-![alfred-wifi-workflow-wifilist](screenshots/wifilist-preview.png)
+<p align="center">
+<img src="screenshots/wifi-preview.png" alt="alfred-wifi-workflow-wifi" width="600">
+<img src="screenshots/wifilist-preview.png" alt="alfred-wifi-workflow-wifilist" width="600">
+</p>
 
 ## Usage
 
