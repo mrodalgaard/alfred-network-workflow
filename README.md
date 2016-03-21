@@ -1,13 +1,10 @@
-# <img src="icon.png" alt="network" width="32"> Alfred Network Workflow [![Build Status](https://travis-ci.org/mrodalgaard/alfred-network-workflow.svg?branch=master)](https://travis-ci.org/mrodalgaard/alfred-network-workflow)
+# <img src="https://raw.githubusercontent.com/mrodalgaard/alfred-network-workflow/master/icon.png" alt="network" width="32"> Alfred Network Workflow [![Build Status](https://travis-ci.org/mrodalgaard/alfred-network-workflow.svg?branch=master)](https://travis-ci.org/mrodalgaard/alfred-network-workflow)
 
-Alfred workflow that can show and change your network settings.
+Alfred workflow that can show and change your network settings; WiFi, Ethernet, VPN, DNS, etc.
 
-Requires Alfred 2 and Power Pack for installing this extension. Might behave differently on Mac OSX versions older than 10.7 Lion. This workflow is primarily implemented in bash with a little help from AppleScript.
+This is a collection of the functionality of already existing network-oriented workflows that I found half-baked or stalled. Improved on performance, usability and details.
 
-<p align="center">
-<img src="screenshots/wifi-preview.png" alt="alfred-wifi-workflow-wifi" width="600">
-<img src="screenshots/wifilist-preview.png" alt="alfred-wifi-workflow-wifilist" width="600">
-</p>
+Recommended to install via [Packal](http://www.packal.org/workflow/network) for auto update support.
 
 ## Usage
 
@@ -15,6 +12,13 @@ Requires Alfred 2 and Power Pack for installing this extension. Might behave dif
 * Type `eth` to show ethernet info (if connected).
 * Type `wifilist` to scan for Wi-Fi hotspots.
 * Type `vpn` to list configured VPNs and connect.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/mrodalgaard/alfred-network-workflow/master/screenshots/wifi-preview.png" alt="alfred-wifi-workflow-wifi" width="600">
+<img src="https://raw.githubusercontent.com/mrodalgaard/alfred-network-workflow/master/screenshots/wifilist-preview.png" alt="alfred-wifi-workflow-wifilist" width="600">
+</p>
+
+Requires Alfred 2 and Power Pack for installing this extension. Might behave differently on Mac OSX versions older than 10.7 Lion. This workflow is primarily implemented in bash with a little help from AppleScript.
 
 ## Tests
 
