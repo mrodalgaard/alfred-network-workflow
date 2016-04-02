@@ -3,6 +3,18 @@
 . src/workflowHandler.sh
 . src/media.sh
 
+trim () {
+  str="$1"
+  match=" "
+  while [ "${str:0:${#match}}" == "$match" ]; do
+    str="${str:${#match}:${#str}}"
+  done
+  while [ "${str:$((${#str}-${#match}))}" == "$match" ]; do
+    str="${str:0:$((${#str} - ${#match}))}"
+  done
+  echo "$str"
+}
+
 getWifiState() {
   local INTERFACE=${1-$INTERFACE}
   if [ "$(networksetup -getairportpower $INTERFACE | grep On)" != "" ]; then
@@ -154,15 +166,31 @@ getDNS() {
   fi
 }
 
+# $1 = line of dns config file
+# $2 = active dns list
+# $! = Separated string of dns config elements
+parseDNSLine() {
+  IFS=':' read -r -a ARRAY <<< "$1"
+  if [[ "${ARRAY[0]}" =~ ^# ]] || [ "${ARRAY[0]}" == "" ] || [ "${ARRAY[1]}" == "" ]; then
+    return
+  fi
+
+  local ID=$(trim "${ARRAY[0]}")
+  local DNS=$(echo ${ARRAY[1]} | sed 's/ //g' | sed 's/,/ \/ /g')
+  local ICON=$ICON_DNS
+
+  if [ "$DNS" == "$2" ]; then
+    ICON=$ICON_DNS_USED
+    ID="$ID (used)"
+  fi
+
+  echo $ID~$DNS~$ICON
+}
+
 # $1 = networksetup -listpreferredwirelessnetworks
 # $! = Separated string of saved access points
 getSavedAPs() {
   while read -r line; do
-    #echo "$line" | sed -e 's/^[ \t\s\v]*//'
-    #echo "$line" | tr -d '\040\011\012\015'
-    # echo "$line" | tr -d '\040\011\015'
-    #echo "$line" | sed -e 's/^[\x01-\x1A]*//'
-
     OUTPUT=$OUTPUT~$line
   done <<< "$1"
   echo ${OUTPUT:1}

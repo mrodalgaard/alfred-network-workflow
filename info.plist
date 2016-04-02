@@ -74,6 +74,17 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>D4820948-B40E-4B36-BD86-21E6BFDB7FF8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>82D72C1A-0B33-483F-AA5E-E25B02CC7971</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>E94FF980-5C9E-41B4-862B-30C04F904070</key>
 		<array>
 			<dict>
@@ -344,6 +355,62 @@ end tell</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>. src/dns.sh "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>82D72C1A-0B33-483F-AA5E-E25B02CC7971</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>dns</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Fetching DNS list ...</string>
+				<key>script</key>
+				<string>. src/dns.sh</string>
+				<key>subtext</key>
+				<string>List of DNS</string>
+				<key>title</key>
+				<string>DNS List</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>D4820948-B40E-4B36-BD86-21E6BFDB7FF8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>https://github.com/mrodalgaard/alfred-network-workflow</string>
@@ -374,6 +441,11 @@ end tell</string>
 			<key>ypos</key>
 			<real>130</real>
 		</dict>
+		<key>82D72C1A-0B33-483F-AA5E-E25B02CC7971</key>
+		<dict>
+			<key>ypos</key>
+			<real>490</real>
+		</dict>
 		<key>C416DACE-0F76-4BF9-A84C-D9B5497B1B00</key>
 		<dict>
 			<key>ypos</key>
@@ -383,6 +455,11 @@ end tell</string>
 		<dict>
 			<key>ypos</key>
 			<real>250</real>
+		</dict>
+		<key>D4820948-B40E-4B36-BD86-21E6BFDB7FF8</key>
+		<dict>
+			<key>ypos</key>
+			<real>490</real>
 		</dict>
 		<key>E675530B-3605-4460-8074-3122E0461D9D</key>
 		<dict>

@@ -76,8 +76,3 @@ load variables
   run getVPN "$SCUTIL"
   [ "$output" = "Test-VPN" ]
 }
-
-@test "getDNS: get DNS" {
-  run getDNS "$DNS"
-  [ "$output" = "8.8.8.8 / 8.8.4.4 / 192.168.1.1" ]
-}

@@ -36,3 +36,6 @@ ICON_ETH="media/ethernet.png"
 
 ICON_VPN="media/vpn.png"
 ICON_VPN_CONNECTED="media/vpn-connected.png"
+
+ICON_DNS="media/dns.png"
+ICON_DNS_USED="media/dns-used.png"
