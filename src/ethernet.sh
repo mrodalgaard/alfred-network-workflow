@@ -5,7 +5,7 @@
 
 # Handle action
 if [ "$1" != "" ]; then
-  echo $1 | tr -d '\n'
+  echo "$1" | tr -d '\n'
   exit
 fi
 

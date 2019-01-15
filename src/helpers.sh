@@ -17,7 +17,7 @@ trim () {
 
 getWifiState() {
   local INTERFACE=${1-$INTERFACE}
-  if [ "$(networksetup -getairportpower $INTERFACE | grep On)" != "" ]; then
+  if [ "$(networksetup -getairportpower "$INTERFACE" | grep On)" != "" ]; then
     echo 1
   else
     echo 0
@@ -101,14 +101,14 @@ getSSID() {
 # $1 = BSSID string
 padBSSID() {
   if [ ${#1} == 17 ]; then
-    echo $1
+    echo "$1"
   else
-    for PART in $(echo $1 | tr ":" "\n"); do
+    for PART in $(echo "$1" | tr ":" "\n"); do
       if [ "$skipFirst" != "" ]; then
         printf ":"
       fi
       skipFirst=true
-      printf "%02s" $PART
+      printf "%02s" "$PART"
     done
   fi
 }
@@ -116,7 +116,7 @@ padBSSID() {
 # $1 = airport -getinfo
 getBSSID() {
   local BSSID=$(echo "$1" | awk '/ BSSID/ {print substr($0, index($0, $2))}')
-  echo $(padBSSID $BSSID)
+  echo $(padBSSID "$BSSID")
 }
 
 # $1 = airport -getinfo
@@ -128,9 +128,9 @@ getAuth() {
 getGlobalIP() {
   local RESOLVER=${1:-"myip.opendns.com @resolver1.opendns.com"}
 
-  local IP=$(dig +time=2 +tries=1 +short $RESOLVER)
+  local IP=$(dig +time=2 +tries=1 +short "$RESOLVER")
   if [[ "$IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-    echo $IP
+    echo "$IP"
   fi
 }
 
@@ -154,13 +154,13 @@ getVPNInfo() {
     AP_ICON=$ICON_VPN
   fi
 
-  echo $STATE~$NAME~$TYPE~$AP_ICON
+  echo "$STATE"~"$NAME"~"$TYPE"~"$AP_ICON"
 }
 
 # $1 = networksetup -getdnsservers
 getDNS() {
   if [[ "$1" != *"any DNS"* ]]; then
-    echo $1 | sed 's/ / \/ /g'
+    echo "$1" | sed 's/ / \/ /g'
   else
     echo ""
   fi
@@ -176,7 +176,7 @@ parseDNSLine() {
   fi
 
   local ID=$(trim "${ARRAY[0]}")
-  local DNS=$(echo ${ARRAY[1]} | sed 's/ //g' | sed 's/,/ \/ /g')
+  local DNS=$(echo "${ARRAY[1]}" | sed 's/ //g' | sed 's/,/ \/ /g')
   local ICON=$ICON_DNS
 
   if [ "$DNS" == "$2" ]; then
@@ -184,7 +184,7 @@ parseDNSLine() {
     ID="$ID (used)"
   fi
 
-  echo $ID~$DNS~$ICON
+  echo "$ID"~"$DNS"~"$ICON"
 }
 
 # $1 = networksetup -listpreferredwirelessnetworks
@@ -193,7 +193,7 @@ getSavedAPs() {
   while read -r line; do
     OUTPUT=$OUTPUT~$line
   done <<< "$1"
-  echo ${OUTPUT:1}
+  echo "${OUTPUT:1}"
 }
 
 # $1 = List of elements
@@ -229,9 +229,9 @@ getAPDetails() {
   then
     SSID=${BASH_REMATCH[1]}
     BSSID=${BASH_REMATCH[2]}
-    RSSI=$(echo ${BASH_REMATCH[3]} | awk '/ / {print $1}')
-    CHANNEL=$(echo ${BASH_REMATCH[3]} | awk '/ / {print $2}')
-    SECURITY=$(echo ${BASH_REMATCH[3]} | awk '/ / {print substr($0, index($0, $5))}')
+    RSSI=$(echo "${BASH_REMATCH[3]}" | awk '/ / {print $1}')
+    CHANNEL=$(echo "${BASH_REMATCH[3]}" | awk '/ / {print $2}')
+    SECURITY=$(echo "${BASH_REMATCH[3]}" | awk '/ / {print substr($0, index($0, $5))}')
   fi
 
   FAVORITED=$(listContains "$3" "$SSID")
@@ -246,7 +246,7 @@ getAPDetails() {
     AP_ICON=$ICON_WIFI_LOCK_
   fi
 
-  AP_ICON="$AP_ICON"$(getWifiStrength $RSSI)"$ICON_END"
+  AP_ICON=$AP_ICON$(getWifiStrength "$RSSI")$ICON_END
 
-  echo $SSID~$BSSID~$RSSI~$CHANNEL~$SECURITY~$AP_ICON
+  echo "$SSID"~"$BSSID"~"$RSSI"~"$CHANNEL"~"$SECURITY"~"$AP_ICON"
 }

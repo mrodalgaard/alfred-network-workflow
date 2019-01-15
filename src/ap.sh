@@ -12,16 +12,16 @@ if [ "$1" != "" ]; then
   # Extract password for AP, which is needed by networksetup
   PASS=$(security 2>&1 >/dev/null find-generic-password -ga "$1" \
     | awk '/ / {print $2}' | tr -d '"')
-  networksetup -setairportnetwork $INTERFACE $1 $PASS
+  networksetup -setairportnetwork "$INTERFACE" "$1" "$PASS"
   exit
 fi
 
 INFO=$($AIRPORT --getinfo)
-SAVED_APS=$(networksetup -listpreferredwirelessnetworks $INTERFACE)
+SAVED_APS=$(networksetup -listpreferredwirelessnetworks "$INTERFACE")
 ACTIVE_BSSID=$(getBSSID "$INFO")
 
 # Sort scan lines and remove header
-SORTED=$(echo "$($AIRPORT --scan)" | awk 'NR>1' | sort)
+SORTED=$($AIRPORT --scan | awk 'NR>1' | sort)
 
 if [ "$SORTED" == "" ]; then
   # Handle no wifi access points found

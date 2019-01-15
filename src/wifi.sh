@@ -6,9 +6,9 @@
 # Handle action
 if [ "$1" != "" ]; then
   if [ "$1" == "On" ] || [ "$1" == "Off" ]; then
-  	networksetup -setairportpower $INTERFACE $1
+  	networksetup -setairportpower "$INTERFACE" "$1"
   else
-    echo $1 | tr -d '\n'
+    echo "$1" | tr -d '\n'
   fi
   exit
 fi
@@ -24,7 +24,7 @@ if [ "$(getWifiState "$INTERFACE")" == 0 ]; then
 fi
 
 # Get network configuration
-NETINFO=$(networksetup -getinfo $NAME)
+NETINFO=$(networksetup -getinfo "$NAME")
 NETCONFIG=$(getConnectionConfig "$NETINFO")
 
 # Output IPv4
