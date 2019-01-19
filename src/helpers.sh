@@ -128,7 +128,7 @@ getAuth() {
 getGlobalIP() {
   local RESOLVER=${1:-"myip.opendns.com @resolver1.opendns.com"}
 
-  local IP=$(dig +time=2 +tries=1 +short "$RESOLVER")
+  local IP=$(dig +time=2 +tries=1 +short $RESOLVER)
   if [[ "$IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
     echo "$IP"
   fi
@@ -160,7 +160,7 @@ getVPNInfo() {
 # $1 = networksetup -getdnsservers
 getDNS() {
   if [[ "$1" != *"any DNS"* ]]; then
-    echo "$1" | sed 's/ / \/ /g'
+    echo $1 | sed 's/ / \/ /g'
   else
     echo ""
   fi
@@ -229,9 +229,9 @@ getAPDetails() {
   then
     SSID=${BASH_REMATCH[1]}
     BSSID=${BASH_REMATCH[2]}
-    RSSI=$(echo "${BASH_REMATCH[3]}" | awk '/ / {print $1}')
-    CHANNEL=$(echo "${BASH_REMATCH[3]}" | awk '/ / {print $2}')
-    SECURITY=$(echo "${BASH_REMATCH[3]}" | awk '/ / {print substr($0, index($0, $5))}')
+    RSSI=$(echo ${BASH_REMATCH[3]} | awk '/ / {print $1}')
+    CHANNEL=$(echo ${BASH_REMATCH[3]} | awk '/ / {print $2}')
+    SECURITY=$(echo ${BASH_REMATCH[3]} | awk '/ / {print substr($0, index($0, $5))}')
   fi
 
   FAVORITED=$(listContains "$3" "$SSID")

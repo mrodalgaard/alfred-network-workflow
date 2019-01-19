@@ -20,7 +20,7 @@ if [ "$1" != "" ]; then
     DNS=$(echo "$1" | sed 's/ \/ / /g')
   fi
 
-  networksetup -setdnsservers "${NAME%,*}" "$DNS"
+  networksetup -setdnsservers ${NAME%,*} $DNS
   dscacheutil -flushcache
   exit
 fi
