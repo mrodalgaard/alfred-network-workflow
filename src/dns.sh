@@ -3,9 +3,9 @@
 . src/wifiCommon.sh
 
 # Copy defaults to alfred cache dir if they do not exist
-FILE="$(getCacheDir)/dns.conf"
+FILE=$alfred_workflow_cache/dns.conf
 if [ ! -f "$FILE" ]; then
-  mkdir -p "$(getCacheDir)"
+  mkdir -p "$alfred_workflow_cache"
   cp src/default-dns.conf "$FILE"
 fi
 
@@ -17,7 +17,7 @@ if [ "$1" != "" ]; then
   elif [ "$1" == "DEFAULT" ]; then
     DNS="empty"
   else
-    DNS=$(echo $1 | sed 's/ \/ / /g')
+    DNS=$(echo "$1" | sed 's/ \/ / /g')
   fi
 
   networksetup -setdnsservers ${NAME%,*} $DNS

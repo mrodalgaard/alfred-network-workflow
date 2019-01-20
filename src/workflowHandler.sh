@@ -1,8 +1,5 @@
 #!/bin/bash
 
-VPREFS="${HOME}/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data/"
-NVPREFS="${HOME}/Library/Application Support/Alfred 2/Workflow Data/"
-
 RESULTS=()
 
 ################################################################################
@@ -46,29 +43,6 @@ xmlEncode() {
 }
 
 ###############################################################################
-# Read the bundleid from the workflow's info.plist
-###############################################################################
-getBundleId() {
-  /usr/libexec/PlistBuddy  -c "Print :bundleid" "info.plist"
-}
-
-###############################################################################
-# Get the workflow data dir
-###############################################################################
-getDataDir() {
-  local BUNDLEID=$(getBundleId)
-  echo "${NVPREFS}${BUNDLEID}"
-}
-
-###############################################################################
-# Get the workflow cache dri
-###############################################################################
-getCacheDir() {
-  local BUNDLEID=$(getBundleId)
-  echo "${VPREFS}${BUNDLEID}"
-}
-
-###############################################################################
 # Save key=value to the workflow properties
 #
 # $1 key
@@ -77,11 +51,10 @@ getCacheDir() {
 # $4 filename (optional, filename will be "settings" if not specified)
 ###############################################################################
 setPref() {
-  local BUNDLEID=$(getBundleId)
   if [ "$3" = "0" ]; then
-    local PREFDIR="${VPREFS}${BUNDLEID}"
+    local PREFDIR="$alfred_workflow_data"
   else
-    local PREFDIR="${NVPREFS}${BUNDLEID}"
+    local PREFDIR="$alfred_workflow_cache"
   fi
 
   if [ ! -d "$PREFDIR" ]; then
@@ -114,11 +87,10 @@ setPref() {
 # $3 filename (optional, filename will be "settings" if not specified)
 ###############################################################################
 getPref() {
-  local BUNDLEID=$(getBundleId)
   if [ "$2" = "0" ]; then
-    local PREFDIR="${VPREFS}${BUNDLEID}"
+    local PREFDIR="$alfred_workflow_data"
   else
-    local PREFDIR="${NVPREFS}${BUNDLEID}"
+    local PREFDIR="$alfred_workflow_cache"
   fi
 
   if [ ! -d "$PREFDIR" ]; then
