@@ -28,6 +28,18 @@ Ethernet Address: cc:f6:b1:77:f7:02
 VLAN Configurations
 ==================="
 
+LIST2="
+Hardware Port: USB 10/100/1000 LAN
+Device: en7
+Ethernet Address: de:ad:be:ef:fe:ed
+
+Hardware Port: Wi-Fi
+Device: en0
+Ethernet Address: f8:06:c1:00:a3:cc
+
+VLAN Configurations
+==================="
+
 NETINFO='DHCP Configuration
 IP address: 192.168.1.100
 Subnet mask: 255.255.255.0

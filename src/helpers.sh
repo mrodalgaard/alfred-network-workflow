@@ -53,7 +53,7 @@ getWifiInterface() {
 
 getEthernetInterface() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "Ethernet$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "LAN$|Ethernet$")
   echo "$DETAILS" | grep -m 1 -o -e en[0-9]
 }
 
