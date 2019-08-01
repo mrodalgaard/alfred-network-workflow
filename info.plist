@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>dk.rodalgaard.alfred.network</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>18344CF4-87B8-4EAC-960F-0424188DBD78</key>
@@ -505,22 +503,19 @@ fi</string>
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>script</key>
-				<string>tell application "System Events"
-	tell current location of network preferences
-		set VPN to service "{query}"
-		if connected of current configuration of VPN then
-			disconnect VPN
-		else
-			connect VPN
-		end if
-	end tell
-end tell</string>
+				<string>VPN="{query}"
+IS_CONNECTED=$(test -z `scutil --nc status "$VPN" | head -n 1 | grep Connected` &amp;&amp; echo 0 || echo 1);
+if [ $IS_CONNECTED = 1 ]; then
+  scutil --nc stop "$VPN"
+else
+  scutil --nc start "$VPN"
+fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>type</key>
-				<integer>6</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
