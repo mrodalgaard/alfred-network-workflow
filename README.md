@@ -4,6 +4,10 @@ Alfred workflow that can show and change your network settings: Wi-Fi, Ethernet,
 
 This is a collection of the functionalities of already existing network-oriented workflows that I found half-baked or stalled. Improved on performance, usability and details.
 
+## Install
+
+Go to [Releases](https://github.com/mrodalgaard/alfred-network-workflow/releases). Under `assets` for the latest release download `Network.alfredworkflow`. Once downloaded, double click the file and it will show up in Alfred.
+
 ## Usage
 
 * Type `wifi` to show Wi-Fi info and enable/disable.
