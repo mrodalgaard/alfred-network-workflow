@@ -215,7 +215,7 @@
 			<key>uid</key>
 			<string>E675530B-3605-4460-8074-3122E0461D9D</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -224,6 +224,8 @@
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -262,7 +264,7 @@
 			<key>uid</key>
 			<string>328256C3-89CB-4454-91D1-8A35107A23EB</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -294,6 +296,8 @@
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -332,7 +336,7 @@
 			<key>uid</key>
 			<string>18344CF4-87B8-4EAC-960F-0424188DBD78</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -455,6 +459,8 @@ fi</string>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -493,7 +499,7 @@ fi</string>
 			<key>uid</key>
 			<string>4C74C452-E821-4F45-9B74-F0C28889BA4F</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -505,10 +511,15 @@ fi</string>
 				<key>script</key>
 				<string>VPN="{query}"
 IS_CONNECTED=$(test -z `scutil --nc status "$VPN" | head -n 1 | grep Connected` &amp;&amp; echo 0 || echo 1);
-if [ $IS_CONNECTED = 1 ]; then
+if [ $IS_CONNECTED -eq 1 ]; then
   scutil --nc stop "$VPN"
 else
-  scutil --nc start "$VPN"
+  scutil --nc show "$VPN" | head -1 | grep PPP:L2TP 2&gt;&amp;1 &gt; /dev/null
+  if [ $? -eq 0 ]; then
+    networksetup -connectpppoeservice "$VPN"
+  else  
+    scutil --nc start "$VPN"
+  fi
 fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -531,6 +542,8 @@ fi</string>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -569,7 +582,7 @@ fi</string>
 			<key>uid</key>
 			<string>C416DACE-0F76-4BF9-A84C-D9B5497B1B00</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -601,6 +614,8 @@ fi</string>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -639,7 +654,7 @@ fi</string>
 			<key>uid</key>
 			<string>D4820948-B40E-4B36-BD86-21E6BFDB7FF8</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
