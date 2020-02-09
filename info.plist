@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>dk.rodalgaard.alfred.network</string>
+	<key>category</key>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>18344CF4-87B8-4EAC-960F-0424188DBD78</key>
@@ -753,6 +755,6 @@ fi</string>
 	<key>version</key>
 	<string>1.1</string>
 	<key>webaddress</key>
-	<string>http://rodalgaard.dk/</string>
+	<string>https://github.com/mrodalgaard/alfred-network-workflow</string>
 </dict>
 </plist>
