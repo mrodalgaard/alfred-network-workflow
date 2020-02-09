@@ -6,7 +6,7 @@ This is a collection of the functionalities of already existing network-oriented
 
 ## Install
 
-Go to [Releases](https://github.com/mrodalgaard/alfred-network-workflow/releases). Under `assets` for the latest release download `Network.alfredworkflow`. Once downloaded, double click the file and it will show up in Alfred.
+Go to [Latest Release](https://github.com/mrodalgaard/alfred-network-workflow/releases/latest) and under `Assets` download `Network.alfredworkflow`. Once downloaded, double click the file and it will show up in Alfred.
 
 ## Usage
 
@@ -23,27 +23,13 @@ Go to [Releases](https://github.com/mrodalgaard/alfred-network-workflow/releases
 
 Requires Alfred 3 and Powerpack for installing this extension. Might behave differently on macOS versions older than 10.7 Lion. This workflow is primarily implemented in Bash with a little help from AppleScript.
 
+WIFI / Access Point changes requires your keychain password which is a known limitation. See [HERE](https://github.com/mrodalgaard/alfred-network-workflow/issues/11#issuecomment-559252188).
+
 ## Tests
 
 [bats](https://github.com/sstephenson/bats) is used for automatic testing of Bash functionality. Install with `brew install bats` using [brew](http://brew.sh/).
 
 Run tests: `bats tests`
-
-# To Do
-
-- [x] Basic functionality
-- [x] Unit tests
-- [x] Mark saved networks with a star
-- [x] Adjust Wi-Fi icon according to strength
-- [x] Ethernet support
-- [x] VPN list
-- [x] Travis CI build
-- [x] DNS switcher using `networksetup -setdnsservers`
-- [ ] Connect WiFi AP using AppleScript
-- [ ] Sort APs (improve!)
-- [ ] Filter APs on-the-fly, but only scan once
-- [ ] Use optional parameters for unit tests
-- [ ] Bluetooth list
 
 ## Credits
 
