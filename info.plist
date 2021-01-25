@@ -754,6 +754,8 @@ fi</string>
 			<integer>20</integer>
 		</dict>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
 	<string>1.4</string>
 	<key>webaddress</key>
