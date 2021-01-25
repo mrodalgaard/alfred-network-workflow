@@ -20,12 +20,12 @@ load variables
   IFS='~' read -r -a ARRAY <<< "$output"
 
   [ "$status" -eq 0 ]
-  [ "${ARRAY[0]}" == "Test-Network" ]
-  [ "${ARRAY[1]}" == "21:aa:4c:b4:cc:11" ]
-  [ "${ARRAY[2]}" == "-24" ]
-  [ "${ARRAY[3]}" == "6" ]
-  [ "${ARRAY[4]}" == "WPA2(PSK/AES/AES)" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_LOCK" ]
+  [ "${ARRAY[1]}" == "Test-Network" ]
+  [ "${ARRAY[2]}" == "21:aa:4c:b4:cc:11" ]
+  [ "${ARRAY[3]}" == "-24" ]
+  [ "${ARRAY[4]}" == "6" ]
+  [ "${ARRAY[5]}" == "WPA2(PSK/AES/AES)" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_LOCK" ]
 }
 
 @test "getAPDetails: get multiband AP with spaces" {
@@ -34,12 +34,12 @@ load variables
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "New AP" ]
-  [ "${ARRAY[1]}" == "50:1d:bf:56:2f:2e" ]
-  [ "${ARRAY[2]}" == "-54" ]
-  [ "${ARRAY[3]}" == "132,+1" ]
-  [ "${ARRAY[4]}" == "WPA2(PSK/AES/AES)" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_LOCK" ]
+  [ "${ARRAY[1]}" == "New AP" ]
+  [ "${ARRAY[2]}" == "50:1d:bf:56:2f:2e" ]
+  [ "${ARRAY[3]}" == "-54" ]
+  [ "${ARRAY[4]}" == "132,+1" ]
+  [ "${ARRAY[5]}" == "WPA2(PSK/AES/AES)" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_LOCK" ]
 }
 
 @test "getAPDetails: get random printer AP" {
@@ -48,12 +48,12 @@ load variables
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "HP-Print-02-Officejet Pro 8600" ]
-  [ "${ARRAY[1]}" == "9c:b6:54:58:05:02" ]
-  [ "${ARRAY[2]}" == "-79" ]
-  [ "${ARRAY[3]}" == "4" ]
-  [ "${ARRAY[4]}" == "WPA2(PSK/AES/AES)" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_LOCK_2" ]
+  [ "${ARRAY[1]}" == "HP-Print-02-Officejet Pro 8600" ]
+  [ "${ARRAY[2]}" == "9c:b6:54:58:05:02" ]
+  [ "${ARRAY[3]}" == "-79" ]
+  [ "${ARRAY[4]}" == "4" ]
+  [ "${ARRAY[5]}" == "WPA2(PSK/AES/AES)" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_LOCK_2" ]
 }
 
 @test "getAPDetails: get unknown AP" {
@@ -62,10 +62,10 @@ load variables
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "test" ]
-  [ "${ARRAY[1]}" == "08:61:6e:c0:9b:ff" ]
-  [ "${ARRAY[4]}" == "WPA(PSK/AES,TKIP/TKIP) WPA2(PSK/AES,TKIP/TKIP)" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_LOCK" ]
+  [ "${ARRAY[1]}" == "test" ]
+  [ "${ARRAY[2]}" == "08:61:6e:c0:9b:ff" ]
+  [ "${ARRAY[5]}" == "WPA(PSK/AES,TKIP/TKIP) WPA2(PSK/AES,TKIP/TKIP)" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_LOCK" ]
 }
 
 @test "getAPDetails: active AP is marked with an icon" {
@@ -74,9 +74,9 @@ load variables
   run getAPDetails "$INPUT" "50:1d:bf:56:2f:2e"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "New AP" ]
-  [ "${ARRAY[1]}" == "50:1d:bf:56:2f:2e" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_ACTIVE" ]
+  [ "${ARRAY[1]}" == "New AP" ]
+  [ "${ARRAY[2]}" == "50:1d:bf:56:2f:2e" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_ACTIVE" ]
 }
 
 @test "getAPDetails: active BSSID can contain starting zeros" {
@@ -85,9 +85,9 @@ load variables
   run getAPDetails "$INPUT" "50:0d:0f:56:00:2e"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "New AP" ]
-  [ "${ARRAY[1]}" == "50:0d:0f:56:00:2e" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_ACTIVE" ]
+  [ "${ARRAY[1]}" == "New AP" ]
+  [ "${ARRAY[2]}" == "50:0d:0f:56:00:2e" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_ACTIVE" ]
 }
 
 @test "getAPDetails: favorited AP is marked with an icon" {
@@ -98,9 +98,9 @@ load variables
   run getAPDetails "$INPUT" "1234" "$AP_LIST"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "New AP" ]
-  [ "${ARRAY[1]}" == "50:1d:bf:56:2f:2e" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI_STAR" ]
+  [ "${ARRAY[1]}" == "New AP" ]
+  [ "${ARRAY[2]}" == "50:1d:bf:56:2f:2e" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_STAR" ]
 }
 
 @test "getAPDetails: open AP is marked with a plain icon" {
@@ -109,30 +109,30 @@ load variables
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  [ "${ARRAY[0]}" == "New AP" ]
-  [ "${ARRAY[5]}" == "$ICON_WIFI" ]
+  [ "${ARRAY[1]}" == "New AP" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI" ]
 }
 
 @test "getAPDetails: icon is set according to strength" {
   INPUT="        New AP 50:1d:bf:56:2f:2e -55  1  Y  US NONE "
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
-  [ "${ARRAY[5]}" == "$ICON_WIFI_4" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_4" ]
 
   INPUT="        New AP 50:1d:bf:56:2f:2e -65  1  Y  US NONE "
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
-  [ "${ARRAY[5]}" == "$ICON_WIFI_3" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_3" ]
 
   INPUT="        New AP 50:1d:bf:56:2f:2e -75  1  Y  US NONE "
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
-  [ "${ARRAY[5]}" == "$ICON_WIFI_2" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_2" ]
 
   INPUT="        New AP 50:1d:bf:56:2f:2e -85  1  Y  US NONE "
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
-  [ "${ARRAY[5]}" == "$ICON_WIFI_1" ]
+  [ "${ARRAY[6]}" == "$ICON_WIFI_1" ]
 }
 
 @test "listContains: contains element" {
