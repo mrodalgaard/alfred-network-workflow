@@ -235,11 +235,14 @@ getAPDetails() {
   fi
 
   FAVORITED=$(listContains "$3" "$SSID")
+  PRIORITY=5
 
   if [ "$2" == "$BSSID" ]; then
     AP_ICON=$ICON_WIFI_ACTIVE_
+    PRIORITY=1
   elif [ "$FAVORITED" != "" ]; then
     AP_ICON=$ICON_WIFI_STAR_
+    PRIORITY=2
   elif [[ "$SECURITY" =~ "NONE" ]]; then
     AP_ICON=$ICON_WIFI_
   else
@@ -248,5 +251,5 @@ getAPDetails() {
 
   AP_ICON=$AP_ICON$(getWifiStrength "$RSSI")$ICON_END
 
-  echo "$SSID"~"$BSSID"~"$RSSI"~"$CHANNEL"~"$SECURITY"~"$AP_ICON"
+  echo "$PRIORITY"~"$SSID"~"$BSSID"~"$RSSI"~"$CHANNEL"~"$SECURITY"~"$AP_ICON"
 }

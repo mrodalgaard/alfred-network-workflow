@@ -20,20 +20,31 @@ INFO=$($AIRPORT --getinfo)
 SAVED_APS=$(networksetup -listpreferredwirelessnetworks "$INTERFACE")
 ACTIVE_BSSID=$(getBSSID "$INFO")
 
-# Sort scan lines and remove header
-SORTED=$($AIRPORT --scan | awk 'NR>1' | sort)
+# Scan airport access points and remove header
+APS=$($AIRPORT --scan | awk 'NR>1')
 
-if [ "$SORTED" == "" ]; then
+if [ "$APS" == "" ]; then
   # Handle no wifi access points found
   addResult "" "Null" "No access points found" "" "$ICON_WIFI_ERROR"
 else
-  # Parse sorted scan lines
-  while read -r LINE; do
-    OUTPUT=$(getAPDetails "$LINE" "$ACTIVE_BSSID" "$SAVED_APS")
-    IFS='~' read -r -a ARRAY <<< "$OUTPUT"
+  PARSED_APS=''
 
-    addResult "" "${ARRAY[0]}" "${ARRAY[0]}" "RSSI ${ARRAY[2]} dBm, channel ${ARRAY[3]}" "${ARRAY[5]}"
-  done <<< "$SORTED"
+  # Parse each AP scan line
+  while read -r LINE; do
+    PARSED_APS+=$(getAPDetails "$LINE" "$ACTIVE_BSSID" "$SAVED_APS")$'\n'
+  done <<< "$APS"
+
+  # Sort parsed access points by priority and name
+  PARSED_APS=$(echo "$PARSED_APS" | sort)
+
+  # Sort and create workflow results from each line
+  while read -r LINE; do
+    IFS='~' read -r -a ARRAY <<< "$LINE"
+
+    if [ "${ARRAY[0]}" != "" ]; then
+      addResult "" "${ARRAY[1]}" "${ARRAY[1]}" "RSSI ${ARRAY[3]} dBm, channel ${ARRAY[4]}" "${ARRAY[6]}"
+    fi
+  done <<< "$PARSED_APS"
 fi
 
 getXMLResults
