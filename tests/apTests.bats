@@ -29,6 +29,24 @@ load variables
   [ "${ARRAY[6]}" == $ICON_WIFI_LOCK ]
 }
 
+@test "getAPDetails: no BSSID on MacOS Monterey" {
+  INPUT="                        y6Uj4xYm                   -76  11      Y  -- WPA2(PSK/AES/AES) "
+
+  run getAPDetails "$INPUT"
+  IFS='~' read -r -a ARRAY <<< "$output"
+
+  echo "TEST OUTPUT: '${ARRAY[5]}'"
+
+  [ "$status" -eq 0 ]
+  [ "${ARRAY[0]}" == $PRIORITY_LOW ]
+  [ "${ARRAY[1]}" == "y6Uj4xYm" ]
+  [ "${ARRAY[2]}" == "" ]
+  [ "${ARRAY[3]}" == "-76" ]
+  [ "${ARRAY[4]}" == "11" ]
+  [ "${ARRAY[5]}" == "WPA2(PSK/AES/AES)" ]
+  [ "${ARRAY[6]}" == $ICON_WIFI_LOCK_2 ]
+}
+
 @test "getAPDetails: get multiband AP with spaces" {
   INPUT="        New AP 50:1d:bf:56:2f:2e -54  132,+1  Y  DK WPA2(PSK/AES/AES) "
 
@@ -49,8 +67,24 @@ load variables
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
 
+  [ "${ARRAY[0]}" == $PRIORITY_LOW ]
   [ "${ARRAY[1]}" == "HP-Print-02-Officejet Pro 8600" ]
   [ "${ARRAY[2]}" == "9c:b6:54:58:05:02" ]
+  [ "${ARRAY[3]}" == "-79" ]
+  [ "${ARRAY[4]}" == "4" ]
+  [ "${ARRAY[5]}" == "WPA2(PSK/AES/AES)" ]
+  [ "${ARRAY[6]}" == $ICON_WIFI_LOCK_2 ]
+}
+
+@test "getAPDetails: get random printer AP on MacOS Monterey" {
+  INPUT="   HP-Print-02-Officejet Pro 8600                   -79  4       N  -- WPA2(PSK/AES/AES) "
+
+  run getAPDetails "$INPUT"
+  IFS='~' read -r -a ARRAY <<< "$output"
+
+  [ "${ARRAY[0]}" == $PRIORITY_LOW ]
+  [ "${ARRAY[1]}" == "HP-Print-02-Officejet Pro 8600" ]
+  [ "${ARRAY[2]}" == "" ]
   [ "${ARRAY[3]}" == "-79" ]
   [ "${ARRAY[4]}" == "4" ]
   [ "${ARRAY[5]}" == "WPA2(PSK/AES/AES)" ]

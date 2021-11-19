@@ -229,19 +229,23 @@ getWifiStrength() {
 # $3 = List of favorite access points (optional)
 # $! = Separated string of access point settings
 getAPDetails() {
-  if [[ "$1" =~ [[:space:]]*(.*)[[:space:]]([0-9a-f:]{17})[[:space:]](.*) ]]
+  # Example:          SSID BSSID             RSSI CHANNEL HT CC SECURITY
+  # Example: "Test-Network 21:aa:4c:b4:cc:11 -24  6       Y  US WPA2(PSK/AES/AES)"
+  if [[ "$1" =~ [[:space:]]*(.*)[[:space:]]+([0-9a-f:]{17})?[[:space:]]+(-[0-9]{2})[[:space:]]+([,+0-9]+)[[:space:]]+([YN]{1})[[:space:]]+([-A-Z]{2})[[:space:]]+(.*) ]]
   then
-    SSID=${BASH_REMATCH[1]}
+    SSID=$(echo ${BASH_REMATCH[1]} | xargs)
     BSSID=${BASH_REMATCH[2]}
-    RSSI=$(echo ${BASH_REMATCH[3]} | awk '/ / {print $1}')
-    CHANNEL=$(echo ${BASH_REMATCH[3]} | awk '/ / {print $2}')
-    SECURITY=$(echo ${BASH_REMATCH[3]} | awk '/ / {print substr($0, index($0, $5))}')
+    RSSI=${BASH_REMATCH[3]}
+    CHANNEL=${BASH_REMATCH[4]}
+    HT=${BASH_REMATCH[5]}
+    CC=${BASH_REMATCH[6]}
+    SECURITY=$(echo ${BASH_REMATCH[7]} | xargs)
   fi
 
   FAVORITED=$(listContains "$3" "$SSID")
   PRIORITY=$PRIORITY_LOW
 
-  if [ "$2" == "$BSSID" ]; then
+  if [ "$BSSID" != "" ] && [ "$BSSID" == "$2" ]; then
     AP_ICON=$ICON_WIFI_ACTIVE_
     PRIORITY=$PRIORITY_HIGH
   elif [ "$FAVORITED" != "" ]; then
