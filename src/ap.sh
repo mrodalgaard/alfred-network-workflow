@@ -18,7 +18,11 @@ fi
 
 INFO=$($AIRPORT --getinfo)
 SAVED_APS=$(networksetup -listpreferredwirelessnetworks "$INTERFACE")
-ACTIVE_BSSID=$(getBSSID "$INFO")
+
+ACTIVE_ID=$(getBSSID "$INFO")
+if [ "$ACTIVE_ID" == "" ]; then
+  ACTIVE_ID=$(getSSID "$INFO")
+fi
 
 # Scan airport access points and remove header
 APS=$($AIRPORT --scan | awk 'NR>1')
@@ -31,7 +35,7 @@ else
 
   # Parse each AP scan line
   while read -r LINE; do
-    PARSED_APS+=$(getAPDetails "$LINE" "$ACTIVE_BSSID" "$SAVED_APS")$'\n'
+    PARSED_APS+=$(getAPDetails "$LINE" "$ACTIVE_ID" "$SAVED_APS")$'\n'
   done <<< "$APS"
 
   # Sort parsed access points by priority and name

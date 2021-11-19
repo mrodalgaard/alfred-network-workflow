@@ -35,8 +35,6 @@ load variables
   run getAPDetails "$INPUT"
   IFS='~' read -r -a ARRAY <<< "$output"
 
-  echo "TEST OUTPUT: '${ARRAY[5]}'"
-
   [ "$status" -eq 0 ]
   [ "${ARRAY[0]}" == $PRIORITY_LOW ]
   [ "${ARRAY[1]}" == "y6Uj4xYm" ]
@@ -115,6 +113,29 @@ load variables
   [ "${ARRAY[2]}" == "50:1d:bf:56:2f:2e" ]
   [ "${ARRAY[6]}" == $ICON_WIFI_ACTIVE ]
 }
+
+@test "getAPDetails: active AP without BSSID is marked with an icon" {
+  INPUT="        New AP                   -54  132,+1  Y  DK WPA2(PSK/AES/AES) "
+
+  run getAPDetails "$INPUT" "New AP"
+  IFS='~' read -r -a ARRAY <<< "$output"
+
+  [ "${ARRAY[0]}" == $PRIORITY_HIGH ]
+  [ "${ARRAY[1]}" == "New AP" ]
+  [ "${ARRAY[6]}" == $ICON_WIFI_ACTIVE ]
+}
+
+@test "getAPDetails: do not mark unknown active AP" {
+  INPUT="        New AP 2                 -54  132,+1  Y  DK WPA2(PSK/AES/AES) "
+
+  run getAPDetails "$INPUT" "New AP"
+  IFS='~' read -r -a ARRAY <<< "$output"
+
+  [ "${ARRAY[0]}" == $PRIORITY_LOW ]
+  [ "${ARRAY[1]}" == "New AP 2" ]
+  [ "${ARRAY[6]}" == $ICON_WIFI_LOCK ]
+}
+
 
 @test "getAPDetails: active BSSID can contain starting zeros" {
   INPUT="        New AP 50:0d:0f:56:00:2e -54  132,+1  Y  DK WPA2(PSK/AES/AES) "

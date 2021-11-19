@@ -52,6 +52,11 @@ load variables
   [ "$output" = "c8:07:19:2c:00:6f" ]
 }
 
+@test "getBSSID: no BSSID" {
+  run getBSSID "          BSSID:"
+  [ "$output" = "" ]
+}
+
 @test "getBSSID: zero pads BSSID" {
   run getBSSID "          BSSID: c8:7:19:2c:0:6f"
   [ "$output" = "c8:07:19:2c:00:6f" ]

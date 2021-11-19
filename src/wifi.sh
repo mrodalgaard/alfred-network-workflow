@@ -44,8 +44,15 @@ INFO=$($AIRPORT --getinfo)
 SSID=$(getSSID "$INFO")
 BSSID=$(getBSSID "$INFO")
 AUTH=$(getAuth "$INFO")
+
+# Use BSSID with SSID as fallback
+SSID_NAME="$SSID ($BSSID)"
+if [ "$BSSID" == "" ]; then
+  SSID_NAME="$SSID"
+fi
+
 if [ "$SSID" != "" ]; then
-  addResult "" "$SSID" "$SSID ($BSSID)" "$NAME access point ($AUTH)" "$ICON_WIFI"
+  addResult "" "$SSID" "$SSID_NAME" "$NAME access point ($AUTH)" "$ICON_WIFI"
 fi
 
 # Output global IP

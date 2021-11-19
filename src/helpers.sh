@@ -119,8 +119,13 @@ padBSSID() {
 
 # $1 = airport -getinfo
 getBSSID() {
-  local BSSID=$(echo "$1" | awk '/ BSSID/ {print substr($0, index($0, $2))}')
-  echo $(padBSSID "$BSSID")
+  local BSSID=$(echo "$1" | awk '/ BSSID/ {print substr($0, index($0, $2))}' | xargs)
+  # Handle missing BSSID
+  if [ "$BSSID" == "BSSID:" ]; then
+    echo ""
+  else
+    echo $(padBSSID "$BSSID")
+  fi
 }
 
 # $1 = airport -getinfo
@@ -225,7 +230,7 @@ getWifiStrength() {
 }
 
 # $1 = `airpot --scan` line
-# $2 = BSSID of the active access point (optional)
+# $2 = BSSID or SSID of the active access point (optional)
 # $3 = List of favorite access points (optional)
 # $! = Separated string of access point settings
 getAPDetails() {
@@ -245,7 +250,7 @@ getAPDetails() {
   FAVORITED=$(listContains "$3" "$SSID")
   PRIORITY=$PRIORITY_LOW
 
-  if [ "$BSSID" != "" ] && [ "$BSSID" == "$2" ]; then
+  if [ "$BSSID" != "" ] && [ "$BSSID" == "$2" ] || [ "$SSID" == "$2" ]; then
     AP_ICON=$ICON_WIFI_ACTIVE_
     PRIORITY=$PRIORITY_HIGH
   elif [ "$FAVORITED" != "" ]; then
