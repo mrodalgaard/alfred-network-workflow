@@ -28,7 +28,7 @@ jobs:
         uses: mperezi/build-alfred-workflow@v1
         id: alfred_builder
         with:
-          workflow_dir: "/"
+          workflow_dir: "."
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
