@@ -29,9 +29,13 @@ jobs:
         id: alfred_builder
         with:
           workflow_dir: "."
+          exclude_patterns: ".git .github .gitignore"
+
+      - name: Rename
+        run: mv ${{ steps.alfred_builder.outputs.workflow_file }} Network.alfredworkflow
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
           name: Network.alfredworkflow
-          path: ${{ steps.alfred_builder.outputs.workflow_file }}
+          path: Network.alfredworkflow
