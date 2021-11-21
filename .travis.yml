@@ -1,5 +1,0 @@
-language: objective-c
-
-script:
-  - brew install bats
-  - bats --tap tests
