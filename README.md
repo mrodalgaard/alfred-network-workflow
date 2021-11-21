@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/mrodalgaard/alfred-network-workflow/master/icon.png" alt="network" width="32"> Alfred Network Workflow [![Build Status](https://travis-ci.org/mrodalgaard/alfred-network-workflow.svg?branch=master)](https://travis-ci.org/mrodalgaard/alfred-network-workflow)
+# <img src="https://raw.githubusercontent.com/mrodalgaard/alfred-network-workflow/master/icon.png" alt="network" width="32"> Alfred Network Workflow ![](https://github.com/mrodalgaard/alfred-network-workflow/workflows/CI/badge.svg)
 
 Alfred workflow that can show and change your network settings: Wi-Fi, Ethernet, VPN, DNS, etc.
 
