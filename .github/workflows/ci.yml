@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install bats
+        run: brew install bats
+
+      - name: Test
+        run: bats --tap tests
+
+  build:
+    runs-on: macos-latest
+    needs: [test]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build Alfred Workflow
+        uses: mperezi/build-alfred-workflow@v1
+        with:
+          workflow_dir: "/"
+          workflow_file: Network.alfredworkflow
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Network.alfredworkflow
+          path: Network.alfredworkflow
