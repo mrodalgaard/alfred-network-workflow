@@ -29,7 +29,7 @@ jobs:
         id: alfred_builder
         with:
           workflow_dir: "."
-          exclude_patterns: ".git .github .gitignore"
+          exclude_patterns: ".git/* .github/* .gitignore"
 
       - name: Rename
         run: mv ${{ steps.alfred_builder.outputs.workflow_file }} Network.alfredworkflow
