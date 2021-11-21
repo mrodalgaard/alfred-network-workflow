@@ -1,9 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - "*"
+on: [push, pull_request]
 
 jobs:
   test:
@@ -18,3 +15,27 @@ jobs:
 
       - name: Test
         run: bats --tap tests
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build Alfred Workflow
+        uses: mperezi/build-alfred-workflow@v1
+        id: alfred_builder
+        with:
+          workflow_dir: "."
+          exclude_patterns: ".git/* .github/* .gitignore"
+
+      - name: Rename
+        run: mv ${{ steps.alfred_builder.outputs.workflow_file }} Network.alfredworkflow
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Network.alfredworkflow
+          path: Network.alfredworkflow
