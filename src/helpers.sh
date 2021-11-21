@@ -3,6 +3,9 @@
 . src/workflowHandler.sh
 . src/media.sh
 
+ETHERNET_REGEX="LAN$|Lan$|Ethernet$"
+WIFI_REGEX="Airport$|Wi-Fi$"
+
 PRIORITY_HIGH="1"
 PRIORITY_MEDIUM="2"
 PRIORITY_LOW="5"
@@ -39,37 +42,37 @@ getEthernetState() {
 
 getWifiName() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "Airport$|Wi-Fi$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$WIFI_REGEX")
   echo "$DETAILS" | grep -Eo "AirPort|Wi-Fi"
 }
 
 getEthernetName() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "Ethernet$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
   echo "$DETAILS" | awk '/Hardware / {print substr($0, index($0, $3))}'
 }
 
 getWifiInterface() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "Airport$|Wi-Fi$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$WIFI_REGEX")
   echo "$DETAILS" | grep -m 1 -o -e en[0-9]
 }
 
 getEthernetInterface() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "LAN$|Ethernet$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
   echo "$DETAILS" | grep -m 1 -o -e en[0-9]
 }
 
 getWifiMac() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "Airport$|Wi-Fi$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$WIFI_REGEX")
   echo "$DETAILS" | awk '/Ethernet Address: / {print substr($0, index($0, $3))}'
 }
 
 getEthernetMac() {
   local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "Ethernet$")
+  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
   echo "$DETAILS" | awk '/Ethernet Address: / {print substr($0, index($0, $3))}'
 }
 

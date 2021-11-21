@@ -17,7 +17,7 @@ if [ "$(getEthernetState "$INTERFACE")" == 0 ]; then
 fi
 
 # Get network configuration
-NETINFO=$(networksetup -getinfo Ethernet)
+NETINFO=$(networksetup -getinfo "$NAME")
 NETCONFIG=$(getConnectionConfig "$NETINFO")
 
 MAC=$(getEthernetMac)
@@ -49,7 +49,7 @@ if [ "$VPN" != "" ]; then
 fi
 
 # Output DNS list
-DNSSTRING=$(getDNS "$(networksetup -getdnsservers Ethernet)")
+DNSSTRING=$(getDNS "$(networksetup -getdnsservers "$NAME")")
 if [ "$DNSSTRING" != "" ]; then
   addResult "" "$DNSSTRING" "$DNSSTRING" "DNS list" "$ICON_ETH"
 fi
