@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install bats
+        run: brew install bats
+
+      - name: Test
+        run: bats --tap tests
