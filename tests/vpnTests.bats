@@ -41,3 +41,16 @@ load variables
   [ "${ARRAY[2]}" == "PPP:L2TP" ]
   [ "${ARRAY[3]}" == "$ICON_VPN" ]
 }
+
+@test "getVPNInfo: get connected vpn info with paranthesis" {
+  INPUT="* (Connected)   65F5A799-4C98-4DA1-87D7-9D605D9D666C IPSec (com.vpn.vpn)              \"Another: VPN\"                            [IPSec]"
+
+  run getVPNInfo "$INPUT"
+  IFS='~' read -r -a ARRAY <<< "$output"
+
+  [ "$status" -eq 0 ]
+  [ "${ARRAY[0]}" == "Connected" ]
+  [ "${ARRAY[1]}" == "Another: VPN" ]
+  [ "${ARRAY[2]}" == "IPSec" ]
+  [ "${ARRAY[3]}" == "$ICON_VPN_CONNECTED" ]
+}
