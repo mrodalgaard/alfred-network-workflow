@@ -27,7 +27,7 @@ WIFI / Access Point changes requires your keychain password which is a known lim
 
 ## Tests
 
-[bats](https://github.com/sstephenson/bats) is used for automatic testing of Bash functionality. Install with `brew install bats` using [brew](http://brew.sh/).
+[bats](https://github.com/bats-core/bats-core) is used for automatic testing of Bash functionality. Install with `brew install bats-core` using [brew](http://brew.sh/).
 
 Run tests: `bats tests`
 
