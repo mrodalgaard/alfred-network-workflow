@@ -153,7 +153,7 @@ getVPN() {
 
 # $1 = `scutil --nc list` lines
 getVPNInfo() {
-  if [[ "$1" =~ \*[[:space:]]\((.*)\)[[:space:]].*\"(.*)\".*\[(.*)\] ]]
+  if [[ "$1" =~ \*[[:space:]]\(([a-zA-Z ]*)\)[[:space:]].*\"(.*)\".*\[(.*)\] ]]
   then
     STATE=${BASH_REMATCH[1]}
     NAME=${BASH_REMATCH[2]}
