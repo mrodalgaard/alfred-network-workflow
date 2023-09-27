@@ -136,7 +136,6 @@ load variables
   [ "${ARRAY[6]}" == $ICON_WIFI_LOCK ]
 }
 
-
 @test "getAPDetails: active BSSID can contain starting zeros" {
   INPUT="        New AP 50:0d:0f:56:00:2e -54  132,+1  Y  DK WPA2(PSK/AES/AES) "
 
@@ -146,6 +145,15 @@ load variables
   [ "${ARRAY[1]}" == "New AP" ]
   [ "${ARRAY[2]}" == "50:0d:0f:56:00:2e" ]
   [ "${ARRAY[6]}" == $ICON_WIFI_ACTIVE ]
+}
+
+@test "getAPDetails: filter empty SSIDs" {
+  INPUT="               50:0d:0f:56:00:2e -54  132,+1  Y  DK WPA2(PSK/AES/AES) "
+
+  run getAPDetails "$INPUT"
+  IFS='~' read -r -a ARRAY <<< "$output"
+
+  [ "${#ARRAY[@]}" == 0 ]
 }
 
 @test "getAPDetails: favorited AP is marked with an icon" {
