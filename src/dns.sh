@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. src/wifiCommon.sh
+. src/helpers.sh
 
 # Copy defaults to alfred cache dir if they do not exist
 FILE=$alfred_workflow_cache/dns.conf
@@ -9,10 +9,12 @@ if [ ! -f "$FILE" ]; then
   cp src/default-dns.conf "$FILE"
 fi
 
+NAME="$(getPrimaryInterfaceName)"
+
 # Handle action
 if [ "$1" != "" ]; then
   if [ "$1" == "EDIT" ]; then
-  	open "$FILE"
+  	open -a TextEdit "$FILE"
     exit
   elif [ "$1" == "DEFAULT" ]; then
     DNS="empty"
@@ -20,12 +22,10 @@ if [ "$1" != "" ]; then
     DNS=$(echo "$1" | sed 's/ \/ / /g')
   fi
 
-  networksetup -setdnsservers ${NAME%,*} $DNS
+  networksetup -setdnsservers "${NAME%,*}" $DNS
   dscacheutil -flushcache
   exit
 fi
-
-# TODO: Handle both WiFi and Ethernet connections
 
 DNSSTRING=$(getDNS "$(networksetup -getdnsservers "$NAME")")
 

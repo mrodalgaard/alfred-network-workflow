@@ -10,6 +10,9 @@ PRIORITY_HIGH="1"
 PRIORITY_MEDIUM="2"
 PRIORITY_LOW="5"
 
+# Trim string
+# $1 = Input string
+# $! = Trimmed string
 trim () {
   str="$1"
   match=" "
@@ -22,72 +25,111 @@ trim () {
   echo "$str"
 }
 
+# Get wifi state as boolean
+# $1 = Wi-Fi interface name
+# $! = Boolean
 getWifiState() {
-  local INTERFACE=${1-$INTERFACE}
-  if [ "$(networksetup -getairportpower "$INTERFACE" | grep On)" != "" ]; then
+  if [ "$(networksetup -getairportpower "$1" | grep On)" != "" ]; then
     echo 1
   else
     echo 0
   fi
 }
 
+# Get ethernet state as boolean
+# $1 = Ethernet interface name
+# $! = Boolean
 getEthernetState() {
-  local INTERFACE=${1-$INTERFACE}
-  if [ "$INTERFACE" != "" ]; then
+  if [ "$1" != "" ]; then
     echo 1
   else
     echo 0
   fi
 }
 
+# Get wifi port name
+# $1 = networksetup -listallhardwareports
+# $! = String
 getWifiName() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$WIFI_REGEX")
   echo "$DETAILS" | grep -Eo "AirPort|Wi-Fi"
 }
 
+# Get ethernet port name
+# $1 = networksetup -listallhardwareports
+# $! = String
 getEthernetName() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
   echo "$DETAILS" | awk '/Hardware / {print substr($0, index($0, $3))}'
 }
 
+# Get wifi interface name
+# $1 = networksetup -listallhardwareports
+# $! = String
 getWifiInterface() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$WIFI_REGEX")
   echo "$DETAILS" | grep -m 1 -o -e en[0-9]
 }
 
+# Get ethernet interface name
+# $1 = networksetup -listallhardwareports
+# $! = String
 getEthernetInterface() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
   echo "$DETAILS" | grep -m 1 -o -e en[0-9]
 }
 
+# Get wifi mac address
+# $1 = networksetup -listallhardwareports
+# $! = String
 getWifiMac() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$WIFI_REGEX")
   echo "$DETAILS" | awk '/Ethernet Address: / {print substr($0, index($0, $3))}'
 }
 
+# Get ethernet mac address
+# $1 = networksetup -listallhardwareports
+# $! = String
 getEthernetMac() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
   echo "$DETAILS" | awk '/Ethernet Address: / {print substr($0, index($0, $3))}'
 }
 
+# Find name of primary connected network interface
+# $! = String
+getPrimaryInterfaceName() {
+  local INTERFACE=$(getEthernetInterface)
+  if [ $(getEthernetState "$INTERFACE") != 0 ]; then
+    echo "$(getEthernetName)"
+  else
+    echo "$(getWifiName)"
+  fi
+}
+
+# Extract connection configuration
 # $1 = networksetup -getinfo
+# $! = String
 getConnectionConfig() {
   echo "$1" | grep 'Configuration$'
 }
 
+# Extract IP4
 # $1 = networksetup -getinfo
+# $! = String
 getIPv4() {
   echo "$1" | grep '^IP\saddress' \
     | awk '/ address/ {print substr($0, index($0, $3))}'
 }
 
+# Extract IP6
 # $1 = networksetup -getinfo
+# $! = String
 getIPv6() {
   local IPv6=$(echo "$1" \
     | grep '^IPv6 IP address' \
@@ -100,12 +142,16 @@ getIPv6() {
   fi
 }
 
+# Extract SSID
 # $1 = airport -getinfo
+# $! = String
 getSSID() {
   echo "$1" | awk '/ SSID/ {print substr($0, index($0, $2))}'
 }
 
+# Pad BSSID
 # $1 = BSSID string
+# $! = String
 padBSSID() {
   if [ ${#1} == 17 ]; then
     echo "$1"
@@ -120,7 +166,9 @@ padBSSID() {
   fi
 }
 
+# Get BSSID
 # $1 = airport -getinfo
+# $! = String
 getBSSID() {
   local BSSID=$(echo "$1" | awk '/ BSSID/ {print substr($0, index($0, $2))}' | xargs)
   # Handle missing BSSID
@@ -131,27 +179,35 @@ getBSSID() {
   fi
 }
 
+# Extract wifi authentication
 # $1 = airport -getinfo
+# $! = String
 getAuth() {
   echo "$1" | awk '/ link auth/ {print substr($0, index($0, $2))}'
 }
 
+# Resolve global IP
 # $1 = Dig resolver address (optional)
+# $! = String
 getGlobalIP() {
   local RESOLVER=${1:-"myip.opendns.com @resolver1.opendns.com"}
 
-  local IP=$(dig +time=2 +tries=1 +short $RESOLVER)
+  local IP=$(dig -4 +time=2 +tries=1 +short $RESOLVER)
   if [[ "$IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
     echo "$IP"
   fi
 }
 
+# Get connected VPN
 # $1 = scutil --nc list
+# $! = String
 getVPN() {
   echo "$1" | awk '/\/*.(Connected)/ {print $7}' | tr -d '"'
 }
 
+# Get VPN info
 # $1 = `scutil --nc list` lines
+# $! = Separated string of VPN info
 getVPNInfo() {
   if [[ "$1" =~ \*[[:space:]]\(([a-zA-Z ]*)\)[[:space:]].*\"(.*)\".*\[(.*)\] ]]
   then
@@ -169,7 +225,9 @@ getVPNInfo() {
   echo "$STATE"~"$NAME"~"$TYPE"~"$AP_ICON"
 }
 
-# $1 = networksetup -getdnsservers
+# Get DNS info
+# $1 = `networksetup -getdnsservers <servicename>`
+# $! = String
 getDNS() {
   if [[ "$1" != *"any DNS"* ]]; then
     echo $1 | sed 's/ / \/ /g'
@@ -178,6 +236,7 @@ getDNS() {
   fi
 }
 
+# Parse DNS info
 # $1 = line of dns config file
 # $2 = active dns list
 # $! = Separated string of dns config elements
@@ -199,6 +258,7 @@ parseDNSLine() {
   echo "$ID"~"$DNS"~"$ICON"
 }
 
+# Get saved access point
 # $1 = networksetup -listpreferredwirelessnetworks
 # $! = Separated string of saved access points
 getSavedAPs() {
@@ -208,8 +268,10 @@ getSavedAPs() {
   echo "${OUTPUT:1}"
 }
 
+# Check if list contains an element
 # $1 = List of elements
 # $2 = Element to check
+# $! = Boolean
 listContains() {
   while read -r ITEM; do
     if [ "$ITEM" == "$2" ]; then
@@ -218,6 +280,7 @@ listContains() {
   done <<< "$1"
 }
 
+# Get WiFi strength
 # $1 = Wifi RSSI
 # $! = Wifi strength level 1-4
 getWifiStrength() {
@@ -232,6 +295,7 @@ getWifiStrength() {
   fi
 }
 
+# Parse access point details string
 # $1 = `airpot --scan` line
 # $2 = BSSID or SSID of the active access point (optional)
 # $3 = List of favorite access points (optional)
@@ -267,5 +331,7 @@ getAPDetails() {
 
   AP_ICON=$AP_ICON$(getWifiStrength "$RSSI")$ICON_END
 
-  echo "$PRIORITY"~"$SSID"~"$BSSID"~"$RSSI"~"$CHANNEL"~"$SECURITY"~"$AP_ICON"
+  if [ "$SSID" != "" ]; then
+    echo "$PRIORITY"~"$SSID"~"$BSSID"~"$RSSI"~"$CHANNEL"~"$SECURITY"~"$AP_ICON"  
+  fi
 }
