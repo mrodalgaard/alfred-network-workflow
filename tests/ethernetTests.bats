@@ -15,6 +15,12 @@ load variables
   [ "$output" = "Thunderbolt Ethernet" ]
 }
 
+@test "getEthernetName: get ax name" {
+  run getEthernetName "$LIST3"
+  [ "$status" -eq 0 ]
+  [ "$output" = "AX88179A" ]
+}
+
 @test "getEthernetInterface: get interface Thunderbolt" {
   run getEthernetInterface "$LIST"
   [ "$status" -eq 0 ]

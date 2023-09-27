@@ -40,6 +40,22 @@ Ethernet Address: f8:06:c1:00:a3:cc
 VLAN Configurations
 ==================="
 
+LIST3="
+Hardware Port: Wi-Fi
+Device: en1
+Ethernet Address: f8:06:c1:00:a3:cc
+
+Hardware Port: AX88179A
+Device: en3
+Ethernet Address: de:ad:be:ef:fe:ed
+
+Hardware Port: Ethernet Adapter (en4)
+Device: en4
+Ethernet Address: de:ad:be:ef:fe:ee
+
+VLAN Configurations
+==================="
+
 NETINFO='DHCP Configuration
 IP address: 192.168.1.100
 Subnet mask: 255.255.255.0

@@ -3,7 +3,7 @@
 . src/workflowHandler.sh
 . src/media.sh
 
-ETHERNET_REGEX="LAN$|Lan$|Ethernet$"
+ETHERNET_REGEX="LAN$|Lan$|Ethernet$|AX[0-9A-Z]+$"
 WIFI_REGEX="Airport$|Wi-Fi$"
 
 PRIORITY_HIGH="1"
