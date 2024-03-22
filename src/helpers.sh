@@ -62,7 +62,8 @@ getWifiName() {
 getEthernetName() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
-  echo "$DETAILS" | awk '/Hardware / {print substr($0, index($0, $3))}'
+  local ADAPTER=$(echo "$DETAILS" | grep "Device:" | sed -e 's/^Device: \(en[0-9]\{1,3\}\)$/\1/')
+  echo $(networksetup -listnetworkserviceorder | sed -n "/Device: $ADAPTER)$/{x;p;d;}; x" | sed -e 's/^([0-9]*) \(.*\)$/\1/')
 }
 
 # Get wifi interface name
