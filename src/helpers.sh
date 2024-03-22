@@ -60,10 +60,7 @@ getWifiName() {
 # $1 = networksetup -listallhardwareports
 # $! = String
 getEthernetName() {
-  local LIST=${1-$(networksetup -listallhardwareports)}
-  local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
-  local ADAPTER=$(echo "$DETAILS" | grep "Device:" | sed -e 's/^Device: \(en[0-9]\{1,3\}\)$/\1/')
-  echo $(networksetup -listnetworkserviceorder | sed -n "/Device: $ADAPTER)$/{x;p;d;}; x" | sed -e 's/^([0-9]*) \(.*\)$/\1/')
+  echo $(networksetup -listnetworkserviceorder | sed -n "/Device: $(getEthernetInterface))$/{x;p;d;}; x" | sed -e 's/^([0-9]*) \(.*\)$/\1/')
 }
 
 # Get wifi interface name
@@ -81,7 +78,7 @@ getWifiInterface() {
 getEthernetInterface() {
   local LIST=${1-$(networksetup -listallhardwareports)}
   local DETAILS=$(echo "$LIST" | grep -A 2 -E "$ETHERNET_REGEX")
-  echo "$DETAILS" | grep -m 1 -o -e en[0-9]
+  echo "$DETAILS" | grep -m 1 -o -e 'en[0-9]\{1,3\}'
 }
 
 # Get wifi mac address
