@@ -241,14 +241,13 @@ getDNS() {
 # $2 = active dns list
 # $! = Separated string of dns config elements
 parseDNSLine() {
-  IFS=':' read -r -a ARRAY <<< "$1"
-  if [[ "${ARRAY[0]}" =~ ^# ]] || [ "${ARRAY[0]}" == "" ] || [ "${ARRAY[1]}" == "" ]; then
+  if echo "$1" | grep -Eq '^[^#]+:.+'; then
+    local ID=$(trim "${1%%:*}")
+    local DNS=$(echo "${1#*:}" | sed 's/ //g' | sed 's/,/ \/ /g')
+    local ICON=$ICON_DNS
+  else
     return
   fi
-
-  local ID=$(trim "${ARRAY[0]}")
-  local DNS=$(echo "${ARRAY[1]}" | sed 's/ //g' | sed 's/,/ \/ /g')
-  local ICON=$ICON_DNS
 
   if [ "$DNS" == "$2" ]; then
     ICON=$ICON_DNS_USED
